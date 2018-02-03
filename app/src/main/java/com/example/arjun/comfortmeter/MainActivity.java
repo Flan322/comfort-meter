@@ -1,15 +1,18 @@
 package com.example.arjun.comfortmeter;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.hardware.Sensor;
         import android.hardware.SensorEvent;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
+        import android.widget.Button;
         import android.widget.TextView;
+        import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener{
+public class MainActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -21,12 +24,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Set up the accelerometer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initalizeViews();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(this);
+
+
+    }
+
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+        startActivity(intent);
     }
 
     public void initalizeViews(){
