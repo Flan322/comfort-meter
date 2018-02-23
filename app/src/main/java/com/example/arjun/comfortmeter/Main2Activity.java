@@ -1,12 +1,15 @@
 package com.example.arjun.comfortmeter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -20,9 +23,8 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     private SensorManager mSensorManager;
     private Sensor mSensor;
 
-    private int counter;
     private float x,y,z;
-    private LineGraphSeries<DataPoint> series, series2;
+    private LineGraphSeries<DataPoint> series;
     private DataPoint[] stuff;
     GraphView graph;
     private long lastUpdate = 0;
@@ -47,8 +49,16 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(40);
-        counter = 0;
 
+    }
+
+
+    public void startService(View view){
+        startService(new Intent(getBaseContext(), MyService.class));
+    }
+
+    public void stopService(View view){
+        stopService(new Intent(getBaseContext(), MyService.class));
     }
 
     public void initalizeViews(){
