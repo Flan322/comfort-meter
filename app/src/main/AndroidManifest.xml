@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main2Activity"></activity>
+        <service android:name=".MyService" />
     </application>
 
 </manifest>
