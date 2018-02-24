@@ -24,7 +24,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensor;
 
     private float x,y,z;
-    private LineGraphSeries<DataPoint> series;
+    public static volatile LineGraphSeries<DataPoint> series;
     GraphView graph;
     private long lastUpdate = 0;
     private long startTime= 0;
@@ -37,9 +37,6 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         setContentView(R.layout.activity_main2);
 
         initalizeViews();
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>(new DataPoint[] {
@@ -79,9 +76,9 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
             long curTime = System.currentTimeMillis();
 
             if ((curTime - lastUpdate) > 1000) {
-                x = sensorEvent.values[0];
-                series.appendData(new DataPoint(graph2LastXValue, x), true, 40);
-                graph2LastXValue += 1d;
+                //x = sensorEvent.values[0];
+                //series.appendData(new DataPoint(graph2LastXValue, x), true, 40);
+                //graph2LastXValue += 1d;
                 lastUpdate = curTime;
             }
 

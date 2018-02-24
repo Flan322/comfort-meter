@@ -19,7 +19,8 @@ public class MyService extends Service implements SensorEventListener {
     private Sensor mSensor;
     private long lastUpdate = 0;
     public static volatile boolean shouldContinue = true;
-
+    private double graph2LastXValue = 0d;
+    private float x;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -32,7 +33,7 @@ public class MyService extends Service implements SensorEventListener {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
+        Main2Activity.series.resetData(new DataPoint[] {});
 
         return Service.START_STICKY;
     }
@@ -54,8 +55,10 @@ public class MyService extends Service implements SensorEventListener {
 
             long curTime = System.currentTimeMillis();
 
-            if ((curTime - lastUpdate) > 10000) {
-                Toast.makeText(this, "Hi", Toast.LENGTH_LONG).show();
+            if ((curTime - lastUpdate) > 1000) {
+                x = sensorEvent.values[0];
+                Main2Activity.series.appendData(new DataPoint(graph2LastXValue, x), true, 40);
+                graph2LastXValue += 1d;
                 lastUpdate = curTime;
             }
 
