@@ -1,5 +1,6 @@
 package com.example.arjun.comfortmeter;
 
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -9,7 +10,6 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -25,7 +25,6 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
     private float x,y,z;
     private LineGraphSeries<DataPoint> series;
-    private DataPoint[] stuff;
     GraphView graph;
     private long lastUpdate = 0;
     private long startTime= 0;
@@ -107,6 +106,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         }
         return values;
     }
+
 
     double mLastRandom = 2;
     Random mRand = new Random();
