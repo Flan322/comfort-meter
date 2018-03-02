@@ -44,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
+    public void onClick2(View v) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+
     public void initalizeViews(){
         last_x = (TextView) findViewById(R.id.last_x);
         last_y = (TextView) findViewById(R.id.last_y);
