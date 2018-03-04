@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Physical Situation"
+        android:key="physical">
+
+        <ListPreference
+            android:key="position_in_vehicle"
+            android:title="Orientation in Vehicle"
+            android:summary="Are you sitting, standing, or lying down in the vehicle?"
+            android:defaultValue="1000"
+            android:entries="@array/pref_position_titles"
+            android:entryValues="@array/pref_position_values"/>
+
+        <ListPreference
+            android:key="age_range"
+            android:title="Age Range"
+            android:summary="Choose the age range you fall into (older will mean a lower jerk threshold)"
+            android:defaultValue="1000"
+            android:entries="@array/pref_age_titles"
+            android:entryValues="@array/pref_age_values"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Personal Preference"
+        android:key="personal_category">
+
+
+        <ListPreference
+            android:key="excitement_factor"
+            android:title="Enjoyment of bumpy rides"
+            android:summary="On a scale of 1 to 5, how much do you enjoy a more bumpy ride?"
+            android:defaultValue="1000"
+            android:entries="@array/pref_excitement_titles"
+            android:entryValues="@array/pref_excitement_values"/>
+
+        <CheckBoxPreference
+            android:key="safety_factor"
+            android:summary="Check this box if you prefer a safer ride"
+            android:title="Safety"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
