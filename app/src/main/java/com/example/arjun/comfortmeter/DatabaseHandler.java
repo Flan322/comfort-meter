@@ -1,6 +1,10 @@
 package com.example.arjun.comfortmeter;
 
+import android.content.ContentValues;
 import android.content.Context;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,15 +15,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "contactsManager";
+    private static final String DATABASE_NAME = "comfortMeter";
 
-    // Contacts table name
-    private static final String TABLE_CONTACTS = "contacts";
+    //Table name
+    private static final String Table_Sessions = "Sessions";
+    private static final String Table_Data = "Data";
 
-    // Contacts Table Columns names
-    private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_PH_NO = "phone_number";
+    //Table Columns names
+    private static final String Session_id = "id";
+    private static final String Session_date = "date";
+    private static final String Session_starttime = "time";
+    private static final String data_id = "session_id";
+    private static final String data_time = "time"; //This would be the time elapsed after the start time technically
+    private static final String data_jerk = "jerk";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,17 +36,51 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_PH_NO + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        String Create_Session_table = "CREATE TABLE " + Table_Sessions + "("
+                + Session_id + " INTEGER PRIMARY KEY AUTOINCREMENT," + Session_date + "TEXT,"
+                + Session_starttime + "INTEGER" + ")";
+        db.execSQL(Create_Session_table);
+
+        String Create_data_table = "CREATE TABLE " + Table_Sessions + "("
+                + data_id + " INTEGER, " + data_time + "INTEGER, "
+                + data_jerk + "INTEGER, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+")";
+        db.execSQL(Create_data_table);
     }
+
+    public void addSession(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Calendar date = Calendar.getInstance();
+
+        SimpleDateFormat year = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+
+        String strDate = year.format(date.getTime());
+        String strTime = time.format(date.getTime());
+
+        values.put(Session_date, strDate);
+        values.put(Session_starttime, strTime);
+
+        db.insert(Table_Sessions, null, values);
+        db.close();
+    }
+
+    public void addData(){
+        //TODO
+    }
+
+
+
+
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + Table_Sessions);
+        db.execSQL("DROP TABLE IF EXISTS " + Table_Data);
 
         // Create tables again
         onCreate(db);
