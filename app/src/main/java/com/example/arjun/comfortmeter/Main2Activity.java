@@ -57,6 +57,10 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         stopService(new Intent(getBaseContext(), MyService.class));
     }
 
+    public void saveData(){
+        
+    }
+
     public void initalizeViews(){
         last_x = (TextView) findViewById(R.id.last_x);
         last_y = (TextView) findViewById(R.id.last_y);
