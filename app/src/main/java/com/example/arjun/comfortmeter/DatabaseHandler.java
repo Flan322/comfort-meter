@@ -8,6 +8,8 @@ import java.util.Calendar;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.jjoe64.graphview.series.DataPoint;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
@@ -38,12 +40,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String Create_Session_table = "CREATE TABLE " + Table_Sessions + "("
                 + Session_id + " INTEGER PRIMARY KEY AUTOINCREMENT," + Session_date + "TEXT,"
-                + Session_starttime + "INTEGER" + ")";
+                + Session_starttime + "TEXT" + ")";
         db.execSQL(Create_Session_table);
 
         String Create_data_table = "CREATE TABLE " + Table_Sessions + "("
-                + data_id + " INTEGER, " + data_time + "INTEGER, "
-                + data_jerk + "INTEGER, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+")";
+                + data_id + " INTEGER, " + data_time + "DOUBLE, "
+                + data_jerk + "DOUBLE, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+")";
         db.execSQL(Create_data_table);
     }
 
@@ -67,8 +69,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addData(){
-        //TODO
+    public void addData(DataPoint data){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Double Time = data.getX();
+        Double Magnitude = data.getY();
+        
+        values.put(data_time, Time);
+        values.put(data_jerk, Magnitude);
+
+        db.insert(Table_Data, null, values);
+        db.close();
     }
 
 
