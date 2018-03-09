@@ -50,15 +50,25 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
 
     public void startService(View view){
+
+        //TODO: Make sure they have to stop session before starting a new one.
+        //Attempt to add a new session each time you click start.
+        //DatabaseHandler database = new DatabaseHandler(this);
+        //database.addSession();
+
+
         startService(new Intent(getBaseContext(), MyService.class));
     }
 
     public void stopService(View view){
+
+        //TODO: Make sure a session has to be running before attempt to stop.
+
         stopService(new Intent(getBaseContext(), MyService.class));
     }
 
     public void saveData(){
-
+        //Probably don't need this function if we save data in real time
     }
 
     public void initalizeViews(){

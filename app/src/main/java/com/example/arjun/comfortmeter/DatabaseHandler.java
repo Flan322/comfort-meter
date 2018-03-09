@@ -37,6 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+
     public void onCreate(SQLiteDatabase db) {
         String Create_Session_table = "CREATE TABLE " + Table_Sessions + "("
                 + Session_id + " INTEGER PRIMARY KEY AUTOINCREMENT," + Session_date + "TEXT,"
@@ -45,13 +46,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String Create_data_table = "CREATE TABLE " + Table_Sessions + "("
                 + data_id + " INTEGER, " + data_time + "DOUBLE, "
-                + data_jerk + "DOUBLE, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+")";
+                + data_jerk + "DOUBLE, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+" ON DELETE CASCADE)";
         db.execSQL(Create_data_table);
     }
 
     public void addSession(){
         SQLiteDatabase db = this.getWritableDatabase();
-
+        db.setForeignKeyConstraintsEnabled(true);
         ContentValues values = new ContentValues();
 
         Calendar date = Calendar.getInstance();
@@ -71,12 +72,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addData(DataPoint data){
         SQLiteDatabase db = this.getWritableDatabase();
-
+        db.setForeignKeyConstraintsEnabled(true);
         ContentValues values = new ContentValues();
 
         Double Time = data.getX();
         Double Magnitude = data.getY();
-        
+
         values.put(data_time, Time);
         values.put(data_jerk, Magnitude);
 
@@ -84,7 +85,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeSessionData(int session){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
 
+        db.delete(Table_Sessions,"id=?",new String[]{Integer.toString(session)});
+
+    }
 
 
 
