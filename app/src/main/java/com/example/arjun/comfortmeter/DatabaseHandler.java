@@ -30,6 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String data_id = "session_id";
     private static final String data_time = "time"; //This would be the time elapsed after the start time technically
     private static final String data_jerk = "jerk";
+    private Integer last_session;
 
 
     public DatabaseHandler(Context context) {
@@ -66,7 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(Session_date, strDate);
         values.put(Session_starttime, strTime);
 
-        db.insert(Table_Sessions, null, values);
+        last_session = (int) db.insert(Table_Sessions, null, values);
         db.close();
     }
 
@@ -78,6 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Double Time = data.getX();
         Double Magnitude = data.getY();
 
+        values.put(data_id, last_session);
         values.put(data_time, Time);
         values.put(data_jerk, Magnitude);
 

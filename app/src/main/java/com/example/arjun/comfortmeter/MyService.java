@@ -57,9 +57,16 @@ public class MyService extends Service implements SensorEventListener {
 
             if ((curTime - lastUpdate) > 1000) {
                 x = sensorEvent.values[0];
-                Main2Activity.series.appendData(new DataPoint(graph2LastXValue, x), true, 40);
+                DataPoint data = new DataPoint(graph2LastXValue, x);
+                Main2Activity.series.appendData(data, true, 40);
+
+                //Here is where we add the data to the database for use later
+                DatabaseHandler database = new DatabaseHandler(this);
+                database.addData(data);
+
                 graph2LastXValue += 1d;
                 lastUpdate = curTime;
+
             }
 
 
