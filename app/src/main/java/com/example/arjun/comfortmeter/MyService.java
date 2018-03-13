@@ -61,8 +61,22 @@ public class MyService extends Service implements SensorEventListener {
                 Main2Activity.series.appendData(data, true, 40);
 
                 //Here is where we add the data to the database for use later
-                DatabaseHandler database = new DatabaseHandler(this);
-                database.addData(data);
+                //DatabaseHandler database = new DatabaseHandler(this);
+                //database.addData(data);
+
+
+                double minX, minY, maxX, maxY;
+
+                Main2Activity.graph.getViewport().calcCompleteRange();
+                maxX = Main2Activity.graph.getViewport().getMaxX(true);
+                maxY = Main2Activity.graph.getViewport().getMaxY(true);
+                minX = Main2Activity.graph.getViewport().getMinX(true);
+                minY = Main2Activity.graph.getViewport().getMinY(true);
+
+                Main2Activity.graph.getViewport().setMaxX(maxX);
+                Main2Activity.graph.getViewport().setMaxY(maxY);
+                Main2Activity.graph.getViewport().setMinX(minX);
+                Main2Activity.graph.getViewport().setMinY(minY);
 
                 graph2LastXValue += 1d;
                 lastUpdate = curTime;

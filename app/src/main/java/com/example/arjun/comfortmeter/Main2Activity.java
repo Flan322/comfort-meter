@@ -25,7 +25,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
     private float x,y,z;
     public static volatile LineGraphSeries<DataPoint> series;
-    GraphView graph;
+    public static volatile GraphView graph;
     private long lastUpdate = 0;
     private long startTime= 0;
     private TextView last_x, last_y, last_z, jerk;
@@ -43,13 +43,10 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         series = new LineGraphSeries<>(new DataPoint[] {
         });
 
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-150);
-        graph.getViewport().setMaxY(150);
+        graph.getViewport().setYAxisBoundsManual(false);
 
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(80);
+        graph.getViewport().setXAxisBoundsManual(false);
+
 
         // enable scaling and scrolling
         graph.getViewport().setScalable(true);
@@ -67,7 +64,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         //TODO: Make sure they have to stop session before starting a new one.
         //Attempt to add a new session each time you click start.
 
-        database.addSession();
+        //database.addSession();
 
 
         startService(new Intent(getBaseContext(), MyService.class));
@@ -78,10 +75,6 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         //TODO: Make sure a session has to be running before attempt to stop.
 
         stopService(new Intent(getBaseContext(), MyService.class));
-    }
-
-    public void saveData(){
-        //Probably don't need this function if we save data in real time
     }
 
     public void initalizeViews(){
