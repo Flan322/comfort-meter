@@ -17,7 +17,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "comfortMeter";
+    private static final String DATABASE_NAME = "comfortMeter.db";
 
     //Table name
     private static final String Table_Sessions = "Sessions";
@@ -26,9 +26,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //Table Columns names
     private static final String Session_id = "id";
     private static final String Session_date = "date";
-    private static final String Session_starttime = "time";
-    private static final String data_id = "session_id";
-    private static final String data_time = "time"; //This would be the time elapsed after the start time technically
+    private static final String Session_starttime = "starttime";
+    private static final String data_id = "dataid";
+    private static final String data_time = "curtime"; //This would be the time elapsed after the start time technically
     private static final String data_jerk = "jerk";
     private Integer last_session;
 
@@ -40,14 +40,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     public void onCreate(SQLiteDatabase db) {
-        String Create_Session_table = "CREATE TABLE " + Table_Sessions + "("
-                + Session_id + " INTEGER PRIMARY KEY AUTOINCREMENT," + Session_date + "TEXT,"
-                + Session_starttime + "TEXT" + ")";
+        String Create_Session_table = "CREATE TABLE " + Table_Sessions + " ("
+                + Session_id + " INTEGER PRIMARY KEY AUTOINCREMENT," + Session_date + " TEXT,"
+                + Session_starttime + " TEXT)";
         db.execSQL(Create_Session_table);
 
-        String Create_data_table = "CREATE TABLE " + Table_Sessions + "("
-                + data_id + " INTEGER, " + data_time + "DOUBLE, "
-                + data_jerk + "DOUBLE, " + "FOREIGN KEY ("+Session_id+") INTEGER REFERENCES "+Table_Sessions+" ON DELETE CASCADE)";
+        String Create_data_table = "CREATE TABLE " + Table_Data + " ("
+                + data_id + " INTEGER," + data_time + " DOUBLE, FOREIGN KEY ("
+                + data_id + ") REFERENCES " + Table_Sessions + " ("
+                + Session_id + ") ON DELETE CASCADE";
         db.execSQL(Create_data_table);
     }
 

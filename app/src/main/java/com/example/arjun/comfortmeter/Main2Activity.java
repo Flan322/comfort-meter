@@ -30,21 +30,34 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     private long startTime= 0;
     private TextView last_x, last_y, last_z, jerk;
     private double graph2LastXValue = 0d;
+    private DatabaseHandler database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
+        database = new DatabaseHandler(this);
         initalizeViews();
 
         graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>(new DataPoint[] {
         });
-        graph.addSeries(series);
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-150);
+        graph.getViewport().setMaxY(150);
+
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(40);
+        graph.getViewport().setMaxX(80);
+
+        // enable scaling and scrolling
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+
+
+        graph.addSeries(series);
+
 
     }
 
@@ -53,8 +66,8 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
         //TODO: Make sure they have to stop session before starting a new one.
         //Attempt to add a new session each time you click start.
-        //DatabaseHandler database = new DatabaseHandler(this);
-        //database.addSession();
+
+        database.addSession();
 
 
         startService(new Intent(getBaseContext(), MyService.class));
