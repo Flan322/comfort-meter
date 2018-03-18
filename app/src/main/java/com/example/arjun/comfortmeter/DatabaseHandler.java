@@ -46,9 +46,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(Create_Session_table);
 
         String Create_data_table = "CREATE TABLE " + Table_Data + " ("
-                + data_id + " INTEGER," + data_time + " DOUBLE, FOREIGN KEY ("
+                + data_id + " INTEGER," + data_time + " DOUBLE," + data_jerk + " DOUBLE, FOREIGN KEY ("
                 + data_id + ") REFERENCES " + Table_Sessions + " ("
-                + Session_id + ") ON DELETE CASCADE";
+                + Session_id + ") ON DELETE CASCADE)";
         db.execSQL(Create_data_table);
     }
 

@@ -61,8 +61,8 @@ public class MyService extends Service implements SensorEventListener {
                 Main2Activity.series.appendData(data, true, 40);
 
                 //Here is where we add the data to the database for use later
-                //DatabaseHandler database = new DatabaseHandler(this);
-                //database.addData(data);
+                DatabaseHandler database = new DatabaseHandler(this);
+                database.addData(data);
 
 
                 double minX, minY, maxX, maxY;

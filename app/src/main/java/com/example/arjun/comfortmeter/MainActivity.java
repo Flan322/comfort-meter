@@ -105,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
+    public void jerk_calc (float xx, float yy, float zz){
+
+    }
 }
 
 

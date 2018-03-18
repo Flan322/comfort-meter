@@ -64,7 +64,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         //TODO: Make sure they have to stop session before starting a new one.
         //Attempt to add a new session each time you click start.
 
-        //database.addSession();
+        database.addSession();
 
 
         startService(new Intent(getBaseContext(), MyService.class));
