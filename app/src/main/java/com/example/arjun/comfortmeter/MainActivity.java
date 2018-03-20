@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float x,y,z;
 
     private long lastUpdate = 0;
-    private TextView jerk;
+    private TextView last_x, last_y, last_z, jerk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     public void initalizeViews(){
+        last_x = (TextView) findViewById(R.id.last_x);
+        last_y = (TextView) findViewById(R.id.last_y);
+        last_z = (TextView) findViewById(R.id.last_z);
         jerk = (TextView) findViewById(R.id.jerk);
         lastUpdate = System.currentTimeMillis();
     }
@@ -80,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 lastUpdate = curTime;
 
-
+                last_x.setText(Float.toString(x));
+                last_y.setText(Float.toString(y));
+                last_z.setText(Float.toString(z));
                 jerk.setText(Double.toString(jerk1));
             }
         }
