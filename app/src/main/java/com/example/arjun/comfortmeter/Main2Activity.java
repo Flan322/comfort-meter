@@ -78,9 +78,6 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     }
 
     public void initalizeViews(){
-        last_x = (TextView) findViewById(R.id.last_x);
-        last_y = (TextView) findViewById(R.id.last_y);
-        last_z = (TextView) findViewById(R.id.last_z);
         jerk = (TextView) findViewById(R.id.jerk);
         lastUpdate = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
