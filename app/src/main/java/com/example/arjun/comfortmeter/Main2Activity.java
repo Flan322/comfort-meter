@@ -25,7 +25,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
     private float x,y,z;
     public static volatile LineGraphSeries<DataPoint> series;
-    GraphView graph;
+    public static volatile GraphView graph;
     private long lastUpdate = 0;
     private long startTime= 0;
     private TextView last_x, last_y, last_z, jerk;
@@ -43,13 +43,10 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         series = new LineGraphSeries<>(new DataPoint[] {
         });
 
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-150);
-        graph.getViewport().setMaxY(150);
+        graph.getViewport().setYAxisBoundsManual(false);
 
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(80);
+        graph.getViewport().setXAxisBoundsManual(false);
+
 
         // enable scaling and scrolling
         graph.getViewport().setScalable(true);
@@ -80,14 +77,7 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         stopService(new Intent(getBaseContext(), MyService.class));
     }
 
-    public void saveData(){
-        //Probably don't need this function if we save data in real time
-    }
-
     public void initalizeViews(){
-        last_x = (TextView) findViewById(R.id.last_x);
-        last_y = (TextView) findViewById(R.id.last_y);
-        last_z = (TextView) findViewById(R.id.last_z);
         jerk = (TextView) findViewById(R.id.jerk);
         lastUpdate = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
