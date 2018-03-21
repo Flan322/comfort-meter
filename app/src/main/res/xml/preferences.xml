@@ -8,7 +8,7 @@
             android:key="position_in_vehicle"
             android:title="Orientation in Vehicle"
             android:summary="Are you sitting, standing, or lying down in the vehicle?"
-            android:defaultValue="1"
+            android:defaultValue="1000"
             android:entries="@array/pref_position_titles"
             android:entryValues="@array/pref_position_values"/>
 

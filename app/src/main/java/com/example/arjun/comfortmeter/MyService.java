@@ -20,7 +20,7 @@ public class MyService extends Service implements SensorEventListener {
     private long lastUpdate = 0;
     public static volatile boolean shouldContinue = true;
     private double graph2LastXValue = 0d;
-    private float x;
+    private float x,y,z;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -56,8 +56,20 @@ public class MyService extends Service implements SensorEventListener {
             long curTime = System.currentTimeMillis();
 
             if ((curTime - lastUpdate) > 1000) {
+
+                float prevX = x;
+                float prevY = y;
+                float prevZ = z;
+
                 x = sensorEvent.values[0];
-                DataPoint data = new DataPoint(graph2LastXValue, x);
+                y = sensorEvent.values[1];
+                z = sensorEvent.values[2];
+
+                double jerk1 = (java.lang.Math.sqrt(java.lang.Math.pow(x,2) + java.lang.Math.pow(y,2) +
+                        java.lang.Math.pow(z,2)) - java.lang.Math.sqrt(java.lang.Math.pow(prevX,2) +
+                        java.lang.Math.pow(prevY,2) + java.lang.Math.pow(prevZ,2)))/(1);
+
+                DataPoint data = new DataPoint(graph2LastXValue, jerk1);
                 Main2Activity.series.appendData(data, true, 40);
 
                 //Here is where we add the data to the database for use later

@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float maxJerk;
     private float x,y,z;
     private SharedPreferences sharePref;
+    private float x_offset, y_offset, z_offset;
     private long lastUpdate = 0;
     private TextView jerk;
 
@@ -37,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sharePref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Integer test = Integer.getInteger(sharePref.getString("position_in_vehicle", "-1"));
+        Integer test = Integer.getInteger(sharePref.getString("position_in_vehicle", "1000"));
 
-        maxJerk = 10*test;
+        maxJerk = 10*1;
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -55,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onClick2(View v) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    public void calibrate(View v) {
+            x_offset = x;
+            y_offset = y;
+            z_offset = z;
     }
 
 
@@ -80,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float prevY = y;
                 float prevZ = z;
 
-                x = sensorEvent.values[0];
-                y = sensorEvent.values[1];
-                z = sensorEvent.values[2];
+                x = sensorEvent.values[0] - x_offset;
+                y = sensorEvent.values[1] - y_offset;
+                z = sensorEvent.values[2] - z_offset;
 
                 double jerk1 = (java.lang.Math.sqrt(java.lang.Math.pow(x,2) + java.lang.Math.pow(y,2) +
                         java.lang.Math.pow(z,2)) - java.lang.Math.sqrt(java.lang.Math.pow(prevX,2) +
