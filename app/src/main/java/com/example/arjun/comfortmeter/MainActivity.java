@@ -2,10 +2,13 @@ package com.example.arjun.comfortmeter;
 
         import android.content.Context;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.hardware.Sensor;
         import android.hardware.SensorEvent;
         import android.hardware.SensorEventListener;
         import android.hardware.SensorManager;
+        import android.preference.Preference;
+        import android.preference.PreferenceManager;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.widget.Button;
@@ -16,9 +19,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
-
+    private float maxJerk;
     private float x,y,z;
-
+    private SharedPreferences sharePref;
     private long lastUpdate = 0;
     private TextView jerk;
 
@@ -32,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sharePref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Integer test = Integer.getInteger(sharePref.getString("position_in_vehicle", "-1"));
+
+        maxJerk = 10*test;
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             long curTime = System.currentTimeMillis();
 
-            if ((curTime - lastUpdate) > 500) {
+            if ((curTime - lastUpdate) > 400) {
                 long diffTime = (curTime - lastUpdate);
 
                 float prevX = x;
@@ -76,12 +84,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 y = sensorEvent.values[1];
                 z = sensorEvent.values[2];
 
-                double jerk1 = (java.lang.Math.sqrt(java.lang.Math.pow(x,2) + java.lang.Math.pow(y,2) + java.lang.Math.pow(z,2)) + java.lang.Math.sqrt(java.lang.Math.pow(prevX,2) + java.lang.Math.pow(prevY,2) + java.lang.Math.pow(prevZ,2)))/diffTime;
+                double jerk1 = (java.lang.Math.sqrt(java.lang.Math.pow(x,2) + java.lang.Math.pow(y,2) +
+                        java.lang.Math.pow(z,2)) - java.lang.Math.sqrt(java.lang.Math.pow(prevX,2) +
+                        java.lang.Math.pow(prevY,2) + java.lang.Math.pow(prevZ,2)))/(0.4);
 
                 lastUpdate = curTime;
 
 
                 jerk.setText(Double.toString(jerk1));
+
+                if (java.lang.Math.sqrt(java.lang.Math.pow(jerk1,2)) > maxJerk){
+                    View testView = findViewById(R.id.progressBar2);
+                    testView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+                }
+                else{
+                    View testView = findViewById(R.id.progressBar2);
+                    testView.setBackgroundColor(getResources().getColor(android.R.color.white));
+                }
             }
         }
     }

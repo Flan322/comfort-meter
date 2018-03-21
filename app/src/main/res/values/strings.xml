@@ -37,9 +37,9 @@
         <item>Lying Down</item>
     </string-array>
     <string-array name="pref_position_values">
-        <item>3</item>
-        <item>2</item>
         <item>1</item>
+        <item>0.1</item>
+        <item>0.05</item>
     </string-array>
 
     <string name="pref_age">Age Range</string>
